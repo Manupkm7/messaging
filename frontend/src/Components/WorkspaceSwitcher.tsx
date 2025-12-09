@@ -1,11 +1,11 @@
 import { Plus } from "lucide-react";
 import Button from "./CommonButton";
-import { Workspace } from "../Lib/types";
+import { ResponseGetAllWorkspaces } from "../Lib/types";
 import { Avatar, AvatarFallback } from "./Avatar";
 
 interface WorkspaceSwitcherProps {
-  workspaces: Workspace[];
-  currentWorkspace: Workspace;
+  workspaces?: ResponseGetAllWorkspaces[];
+  currentWorkspace: ResponseGetAllWorkspaces;
 }
 
 export function WorkspaceSwitcher({
@@ -14,7 +14,11 @@ export function WorkspaceSwitcher({
 }: WorkspaceSwitcherProps) {
   const pathname = window.location.pathname;
   console.debug("Current pathname:", currentWorkspace);
-  
+
+  if (!workspaces) {
+    return null;
+  }
+
   return (
     <div className="flex h-full w-16 flex-col items-center gap-2 bg-background py-3">
       <div className="w-full flex-1 overflow-auto">

@@ -1,7 +1,11 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 
 import api from "../Lib/api";
-import { Profile, ResponseCreateWorkspace } from "../Lib/types";
+import {
+  Profile,
+  ResponseCreateWorkspace,
+  ResponseGetAllWorkspaces,
+} from "../Lib/types";
 
 export const useAuthStore = () => {
   const login = useMutation({
@@ -66,4 +70,15 @@ export const useWorkspaces = () => {
   };
 };
 
-
+export const GetAllWorkspaces = async () => {
+  return useQuery({
+    queryKey: ["WORKSPACES_TOTAL"],
+    queryFn: async () => {
+      const response = await api.get<ResponseGetAllWorkspaces[]>("/workspaces");
+      return response.data;
+    },
+    refetchIntervalInBackground: true, // Refetch incluso cuando la pestaña no está activa
+    refetchOnWindowFocus: true, // Refetch cuando la ventana vuelve a tener foco
+    staleTime: 5 * 60 * 1000, // 5 minutos antes de considerar los datos obsoletos
+  });
+};
