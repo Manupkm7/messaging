@@ -1,0 +1,1 @@
+{"root":["./vite.config.ts","./src/app.tsx","./src/main.tsx","./src/components/card.tsx","./src/components/commonbutton.tsx","./src/context/themecontext.tsx","./src/pages/login.tsx","./eslint.config.js","./tailwind.config.js"],"version":"5.9.3"}
