@@ -76,3 +76,11 @@ export interface DMMessage {
   deleted_at: string | null;
   profile?: Profile;
 }
+
+export interface ResponseCreateWorkspace {
+  id: string;
+  name: string;
+  slug: string;
+  created_at: string;
+  updated_at: string;
+}

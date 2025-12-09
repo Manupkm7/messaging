@@ -1,15 +1,15 @@
+import { useWorkspaces } from "../hooks/useDataStore";
 import { Card, CardContent } from "../Components/Card";
 import Button from "../Components/CommonButton";
 import type React from "react";
 
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 
 export default function CreateWorkspacePage() {
   const [name, setName] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const navigate = useNavigate();
+  const { createWorkspace } = useWorkspaces();
 
   const generateSlug = (name: string) => {
     return name
@@ -22,7 +22,17 @@ export default function CreateWorkspacePage() {
     e.preventDefault();
     setIsLoading(true);
     setError(null);
-    navigate("/");
+    try {
+      const slug = generateSlug(name);
+      const workspace = await createWorkspace(name);
+      // Redirect to the new workspace page
+      console.log("Workspace created:", workspace, slug);
+    } catch (err: any) {
+      setError(
+        err.message || "An error occurred while creating the workspace."
+      );
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -40,7 +50,9 @@ export default function CreateWorkspacePage() {
             <form onSubmit={handleCreate}>
               <div className="flex flex-col gap-6">
                 <div className="grid gap-2">
-                  <label htmlFor="name" className="text-gray-500 text-sm">Grupo de trabajo</label>
+                  <label htmlFor="name" className="text-gray-500 text-sm">
+                    Grupo de trabajo
+                  </label>
                   <input
                     id="name"
                     type="text"
